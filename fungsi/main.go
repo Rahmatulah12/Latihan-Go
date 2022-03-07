@@ -94,6 +94,8 @@ func main() {
 	fmt.Println("original number :", numbers2)
 	fmt.Println("filtered number :", newNumbers2)
 
+	ShowResultFilter()
+
 }
 
 func printMessage(message string, array []string) {
@@ -230,4 +232,36 @@ func hobbies(name string, hobbies ...string) {
 	fmt.Println("Nama: ", name)
 	fmt.Println("Hobi: ", joinHobbiesToString)
 
+}
+
+//  alias closure function
+type FilterCallback func(string) bool
+
+// Penerapan fungsi sebagai parameter
+func filter(data []string, callback FilterCallback) []string {
+	var results []string
+	for _, each := range data {
+		if filtered := callback(each); filtered {
+			results = append(results, each)
+		}
+	}
+	return results
+}
+
+func ShowResultFilter() {
+	var data = []string{"wick", "jason", "ethan"}
+	var dataContainsO = filter(data, func(each string) bool {
+		return strings.Contains(each, "o") // mengembalikan nilai true jika string berisi huruf o
+	})
+
+	var dataLenght5 = filter(data, func(each string) bool {
+		return len(each) == 5 // mengembalikan nilai true jika panjang dari string == 5
+	})
+
+	fmt.Println("data asli \t\t:", data)
+	// data asli : [wick jason ethan]
+	fmt.Println("filter ada huruf \"o\"\t:", dataContainsO)
+	// filter ada huruf "o" : [jason]
+	fmt.Println("filter jumlah huruf \"5\"\t:", dataLenght5)
+	// filter jumlah huruf "5" : [jason ethan]
 }
